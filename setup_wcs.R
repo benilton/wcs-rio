@@ -9,7 +9,7 @@ shell_call <- function(command, ...) {
 
 # Install curl if missing
 shell_call("apt update -qq")
-shell_call("apt install -y --no-install-recommends curl ca-certificates")
+shell_call("apt install -y --no-install-recommends curl ca-certificates git")
 
 ## Setup bioc2u and r2u
 shell_call("curl https://raw.githubusercontent.com/Bioconductor/bioc2u/devel/apt_setup.sh | sudo bash")
@@ -29,4 +29,3 @@ BiocManager::install(biocPkgs2Install, ask=FALSE, update=TRUE, quietly=TRUE)
 
 ## Install presto to save time with Wilcoxon Rank Sum Test in Seurat
 devtools::install_github('immunogenomics/presto')
-

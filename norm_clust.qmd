@@ -1,0 +1,172 @@
+---
+title: "Normalization and Clustering of scRNA-Seq Data"
+author: "Benilton S Carvalho"
+format:
+  revealjs:
+    logo: unicamp.png
+    footer: Normalization and Clustering of scRNA-Seq Data
+    multiplex: true
+editor: visual
+css: style.css
+---
+
+# Problem
+
+Imagine a bustling city (your tissue sample). Each building is a cell with a unique function. scRNA-seq lets us eavesdrop on the conversations (gene expression) happening in each building.
+
+# Normalization: Adjusting the Volume Controls
+
+
+## Noise in the system
+
+* Technical noise: Think of it like background chatter in a coffee shop, making it hard to hear individual conversations.
+* Biological variation: Some buildings are naturally louder (cells are more active), while others whisper (cells are less active).
+
+## Technical Variability in scRNA-Seq
+
+* Systematic differences in sequencing coverages between libraries is a common fact in single-cell experiments
+* Common causes:
+    * technical differences in cDNA capture
+    * PCR amplification efficiency across cells
+    * difficulty of achieving consistent library preparation with minimal starting material
+
+## Finding the Right Volume - Aims
+
+**Normalization is like adjusting the volume in each building.**
+
+* Remove technical variation (background chatter).
+* Make expression levels comparable across cells (buildings).
+
+## Normalization
+
+* Normalization is a series of statistical methods that aim to mitigate/reduce the effects of these systematic differences on downstream analyses.
+* Example: When comparing two groups of cells, we want to identify differences that are due to the biology, and not differences that result from the fact that cells from Group A have more reads than cells from Group B.
+* Therefore, normalization is needed to improve the statistical power of detecting biology driven differences.
+
+
+## Finding the Right Volume - Methods
+
+**Normalization is like adjusting the volume in each building.**
+
+* Total count scaling (adjust based on overall conversation volume).
+* Logarithmic transformation (amplify quiet conversations).
+* Library size (DESeq2).
+* Deconvolution.
+* Spike-ins.
+* Other advanced methods.
+
+## Normalization by Size Factor
+
+* Simplest strategy
+* Divides all counts for a given cell by a “size factor”
+* Hypothesis: any bias in that cell affects all genes equally
+* The resulting ‘normalized counts’ can be used in downstream analyses
+* Size factor:
+  * Geometric mean for each gene
+  * Divide the cell counts by the aforementioned mean
+  * Take the median of the ratios
+  
+## Normalization by Deconvolution
+
+* Cells are first clustered into several groups
+* Normalization happens independently for each group
+* Size factors are used to scale counts and make different groups comparable
+* The hypothesis of most genes not being DE is true for each group
+
+## Normalization by Spike-in
+
+* Add the same amount of spike-in RNA to each cell
+* Equalize spike-in coverage across cells using size factors that are specific for spike-ins
+* Doesn’t make other assumptions
+
+## How to Normalize Data Using Seurat?
+
+```
+NormalizeData(
+  object,
+  normalization.method = "LogNormalize",
+  scale.factor = 10000
+)
+```
+
+* Feature counts for each cell are divided by the total counts for that cell
+* Later, they are multiplied by the scale.factor
+* Finally, this result is natural-log transformed
+
+# Clustering: Uncovering Neighborhoods
+
+## Uncovering Neighborhoods - Aim
+
+**Clustering is like identifying distinct neighborhoods within the city.**
+
+* Group cells with similar gene expression profiles (similar conversations).
+
+## Clustering
+
+* Unsupervised (statistical learning) strategy to define groups of cells with similar expression patterns.
+* Simplifies interpretation.
+* Clusters should be treated as approximations of abstract biological concepts (cell types, states, etc).
+* These clusters are for exploration only and we can create as many versions as we want (more clusters, less clusters).
+* The correctness of cluster assignments is meaningless.
+
+## Uncovering Neighborhoods - Methods
+
+**Clustering is like identifying distinct neighborhoods within the city.**
+
+* K-means (predefine the number of neighborhoods).
+* Hierarchical clustering (build a family tree of cell relationships).
+* Graph-based clustering (connect cells based on shared conversations).
+
+## Hierarchical Clustering
+
+* Produces a dendrogram, useful for understanding the relationships between subpopulations.
+* It’s slow.
+* Uses cell to cell distances and requires A LOT of memory.
+
+## Graph-based Clustering
+
+* Used often in Seurat.
+* Uses information from neighbors (in higher dimensions) to create communities.
+* It’s fast (uses knn).
+* It’s robust.
+* Doesn’t make assumptions about the shapes of the clusters.
+* Information about relationships beyond neighbors is lost.
+
+## Perform Clustering with Seurat - 1
+
+* Determine distance between cells
+
+```
+FindNeighbors(
+   object,
+   dims=1:20
+)
+```
+
+Computes the _k.param_ nearest neighbors for a given dataset. Can also optionally (via compute.SNN), construct a shared nearest neighbor graph by calculating the neighborhood overlap (Jaccard index) between every cell and its _k.param_ nearest neighbors.
+
+## Perform Clustering with Seurat - 2
+
+* Perform graph-clustering
+
+```
+FindClusters(
+  object
+)
+```
+
+Identify clusters of cells by a shared nearest neighbor (SNN) modularity optimization based clustering algorithm. 
+
+## Recap
+
+| Concept     | Analogy       | Goal                                                                  |
+|------------|---------------|----------------------------------------------------------------------|
+| scRNA-seq   | City          | Understand conversations (gene expression) in each building (cell). |
+| Noise       | Background chatter | Makes it hard to hear individual conversations.                          |
+
+## Recap
+
+| Concept     | Analogy       | Goal                                                                  |
+|------------|---------------|----------------------------------------------------------------------|
+| Normalization | Volume control | Adjust volume to make conversations comparable.                       |
+| Clustering  | Neighborhoods | Group buildings with similar conversations together.                    |
