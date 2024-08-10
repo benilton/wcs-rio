@@ -1,0 +1,268 @@
+[
+  {
+    "objectID": "de_annot.html#tools-for-scrna-seq",
+    "href": "de_annot.html#tools-for-scrna-seq",
+    "title": "Differential Expression and Annotation",
+    "section": "Tools for scRNA-Seq",
+    "text": "Tools for scRNA-Seq\n\nscanpy\nMonocle\nBioconductor\nSeurat"
+  },
+  {
+    "objectID": "de_annot.html#methods",
+    "href": "de_annot.html#methods",
+    "title": "Differential Expression and Annotation",
+    "section": "Methods",
+    "text": "Methods\n\nPreprocessing: data import, QC, quantification\nNormalization: dropout, depth, batch effects\nDimensionality Reduction: PCA, UMAP\nClustering: cell type clusters\nDifferential Gene Expression"
+  },
+  {
+    "objectID": "de_annot.html#seurat",
+    "href": "de_annot.html#seurat",
+    "title": "Differential Expression and Annotation",
+    "section": "Seurat",
+    "text": "Seurat\n\n\n\nMost used tool\nGood documentation\nSeveral tutorials\nMany methods\nExtendable\nGene Expression Dynamics"
+  },
+  {
+    "objectID": "de_annot.html#statistical-analysis-of-differences-between-clusters",
+    "href": "de_annot.html#statistical-analysis-of-differences-between-clusters",
+    "title": "Differential Expression and Annotation",
+    "section": "Statistical Analysis of Differences Between Clusters",
+    "text": "Statistical Analysis of Differences Between Clusters\n\nDifferent types of hits\n\nQuantitatively significant between clusters\nQualitatively different (predictive) of cluster membership\n\nDifferent types of markers\n\nGlobal: Distinguish one cluster from all of the rest of the data\nLocal: Distinguish one cluster from another defined set of clusters"
+  },
+  {
+    "objectID": "de_annot.html#statistical-analysis-of-differences-between-clusters-1",
+    "href": "de_annot.html#statistical-analysis-of-differences-between-clusters-1",
+    "title": "Differential Expression and Annotation",
+    "section": "Statistical Analysis of Differences Between Clusters",
+    "text": "Statistical Analysis of Differences Between Clusters\n\nOften filter genes based on coverage in the set or the size of groups\nSeveral choices of methods to identify genes"
+  },
+  {
+    "objectID": "de_annot.html#comparing-gene-expression-across-groups",
+    "href": "de_annot.html#comparing-gene-expression-across-groups",
+    "title": "Differential Expression and Annotation",
+    "section": "Comparing Gene Expression Across Groups",
+    "text": "Comparing Gene Expression Across Groups\n\nSuppose you have two groups of cells\nYou have expression levels for each cell within each group\nQuestion: is gene expression significantly different between both groups?"
+  },
+  {
+    "objectID": "de_annot.html#methods-1",
+    "href": "de_annot.html#methods-1",
+    "title": "Differential Expression and Annotation",
+    "section": "Methods",
+    "text": "Methods\n\nNon-parametric: Wilcoxon rank sum test\nParametric: t-test, negative binomial\nClassification: ROC\nSpecialized: MAST\n\nFindMarkers(data, ident.1 = \"g1\", ident.2 = \"g2\",\n            group.by = \"status\", test.use = \"roc\",\n            only.pos = TRUE)"
+  },
+  {
+    "objectID": "de_annot.html#wilcoxon-rank-sum-test",
+    "href": "de_annot.html#wilcoxon-rank-sum-test",
+    "title": "Differential Expression and Annotation",
+    "section": "Wilcoxon rank sum test",
+    "text": "Wilcoxon rank sum test\n\nChallenge: scRNA-seq data does not follow a beautiful bell-shaped curve\nNon-parametric: doesn’t make assumption about the shape of the data\nRank-based: doesn’t use the magnitude of the expression levels but relies on the order of the data instead\nTwo-sample: compares two independent groups"
+  },
+  {
+    "objectID": "de_annot.html#wilcoxon-rank-sum-test-step-by-step",
+    "href": "de_annot.html#wilcoxon-rank-sum-test-step-by-step",
+    "title": "Differential Expression and Annotation",
+    "section": "Wilcoxon rank sum test: step-by-step",
+    "text": "Wilcoxon rank sum test: step-by-step\n\nCombine: pool the expression levels from both groups\nRank: sort the values from smaller to largest, assigning ranks (1, 2, …)\nSum: sum the ranks for each group\nTest: the test determines if the difference in rank sums is large enough to be unlikely due to chance alone (p-value)"
+  },
+  {
+    "objectID": "de_annot.html#t-test",
+    "href": "de_annot.html#t-test",
+    "title": "Differential Expression and Annotation",
+    "section": "t-test",
+    "text": "t-test\n\nCompares the average gene expression in the two groups\nAssesses if the difference is likely due to chance or a real effect of the groups"
+  },
+  {
+    "objectID": "de_annot.html#t-test-step-by-step",
+    "href": "de_annot.html#t-test-step-by-step",
+    "title": "Differential Expression and Annotation",
+    "section": "t-test: step-by-step",
+    "text": "t-test: step-by-step\n\nCalculate the Means: Find the average gene expression for each group.\nMeasure the Spread: See how much the individual measurements vary around the averages (standard deviation).\nCalculate the t-statistic: A number that combines the difference in means and the spread. Larger t-values suggest a bigger difference between groups.\nGet the p-value: The probability of seeing a difference as large as (or larger than) the one you observed if there was actually no real effect of the groups."
+  },
+  {
+    "objectID": "de_annot.html#negative-binomial-test",
+    "href": "de_annot.html#negative-binomial-test",
+    "title": "Differential Expression and Annotation",
+    "section": "Negative Binomial Test",
+    "text": "Negative Binomial Test\n\nCompares the expression between groups using count data\nIn scRNA-seq, we count how many times each gene is expressed in a cell\nCount data doesn’t behave like other types of data (e.g., heights, weights). It has unique properties:\n\nDiscrete: You can’t see a gene 0.5 times. Counts are whole numbers (0, 1, 2, etc.).\nOverdispersed: The variation in counts is often larger than expected from a simple model. Think of it as some genes being much more expressed than others."
+  },
+  {
+    "objectID": "de_annot.html#negative-binomial-distribuition",
+    "href": "de_annot.html#negative-binomial-distribuition",
+    "title": "Differential Expression and Annotation",
+    "section": "Negative Binomial Distribuition",
+    "text": "Negative Binomial Distribuition\nThe negative binomial distribution is a statistical model that’s well-suited for count data. It can handle:\n\nDiscrete nature: It only deals with whole numbers.\nOverdispersion: It allows for extra variation in the data."
+  },
+  {
+    "objectID": "de_annot.html#the-negative-binomial-test-comparing-groups",
+    "href": "de_annot.html#the-negative-binomial-test-comparing-groups",
+    "title": "Differential Expression and Annotation",
+    "section": "The Negative Binomial Test: Comparing Groups",
+    "text": "The Negative Binomial Test: Comparing Groups\nIn scRNA-seq, we often want to compare gene expression between groups (e.g., treated vs. control cells). The negative binomial test helps us do this by:\n\nModeling the Counts: It estimates the parameters of the negative binomial distribution for each group.\nTesting for Differences: It assesses whether the differences in counts between groups are statistically significant."
+  },
+  {
+    "objectID": "de_annot.html#what-about-new-methods",
+    "href": "de_annot.html#what-about-new-methods",
+    "title": "Differential Expression and Annotation",
+    "section": "What about new methods?",
+    "text": "What about new methods?"
+  },
+  {
+    "objectID": "de_annot.html#why-annotate-cell-types",
+    "href": "de_annot.html#why-annotate-cell-types",
+    "title": "Differential Expression and Annotation",
+    "section": "Why annotate cell types?",
+    "text": "Why annotate cell types?\n\nInterpreting the findings of our analysis is the most difficult task in sc-data analysis\nUnderstanding the biological state of each cluster is way harder then assigning clusters\nTo do this, we need to “connect” our dataset to existing knowledge\nOne strategy is to compare the expression of our dataset to the expressions of curated existing datasets (references)\nWhat tool do we use? SingleR"
+  },
+  {
+    "objectID": "de_annot.html#cell-type-annotation-1",
+    "href": "de_annot.html#cell-type-annotation-1",
+    "title": "Differential Expression and Annotation",
+    "section": "Cell Type Annotation",
+    "text": "Cell Type Annotation\n\nSingleR pkg contains the statistical method for assignment\ncelldex pkg shares several reference (well curated) datasets\nMost references are built from bulk RNA-seq and microarray\nThey are good enough for annotation of sc-data, provided that the references contains the cell types that are expected to be present on the test data\nWe’ll use a reference built from Blueprint and ENCODE data\nSingle-cell references can also be used"
+  },
+  {
+    "objectID": "de_annot.html#how-to-perform-annotation",
+    "href": "de_annot.html#how-to-perform-annotation",
+    "title": "Differential Expression and Annotation",
+    "section": "How to perform annotation?",
+    "text": "How to perform annotation?\n## Load the references\nlibrary(celldex)\nref = BlueprintEncodeData()\n\n## We could load a sc reference instead\n## ref = MuraroPancreasData()"
+  },
+  {
+    "objectID": "de_annot.html#how-to-perform-annotation-1",
+    "href": "de_annot.html#how-to-perform-annotation-1",
+    "title": "Differential Expression and Annotation",
+    "section": "How to perform annotation?",
+    "text": "How to perform annotation?\n## Compare expression levels from my.data\n##     to the reference\nlibrary(SingleR)\npred = SingleR(test = my.data, ref = ref,\n               labels = ref$label.main)\n\ntable(pred$labels)"
+  },
+  {
+    "objectID": "de_annot.html#observing-the-results",
+    "href": "de_annot.html#observing-the-results",
+    "title": "Differential Expression and Annotation",
+    "section": "Observing the results",
+    "text": "Observing the results\n\n\nplotScoreHeatmap(pred)\n\n\n\n\n\n\n\n\nDifferential Expression and Annotation"
+  },
+  {
+    "objectID": "norm_clust.html#noise-in-the-system",
+    "href": "norm_clust.html#noise-in-the-system",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Noise in the system",
+    "text": "Noise in the system\n\nTechnical noise: Think of it like background chatter in a coffee shop, making it hard to hear individual conversations.\nBiological variation: Some buildings are naturally louder (cells are more active), while others whisper (cells are less active)."
+  },
+  {
+    "objectID": "norm_clust.html#technical-variability-in-scrna-seq",
+    "href": "norm_clust.html#technical-variability-in-scrna-seq",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Technical Variability in scRNA-Seq",
+    "text": "Technical Variability in scRNA-Seq\n\nSystematic differences in sequencing coverages between libraries is a common fact in single-cell experiments\nCommon causes:\n\ntechnical differences in cDNA capture\nPCR amplification efficiency across cells\ndifficulty of achieving consistent library preparation with minimal starting material"
+  },
+  {
+    "objectID": "norm_clust.html#finding-the-right-volume---aims",
+    "href": "norm_clust.html#finding-the-right-volume---aims",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Finding the Right Volume - Aims",
+    "text": "Finding the Right Volume - Aims\nNormalization is like adjusting the volume in each building.\n\nRemove technical variation (background chatter).\nMake expression levels comparable across cells (buildings)."
+  },
+  {
+    "objectID": "norm_clust.html#normalization",
+    "href": "norm_clust.html#normalization",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Normalization",
+    "text": "Normalization\n\nNormalization is a series of statistical methods that aim to mitigate/reduce the effects of these systematic differences on downstream analyses.\nExample: When comparing two groups of cells, we want to identify differences that are due to the biology, and not differences that result from the fact that cells from Group A have more reads than cells from Group B.\nTherefore, normalization is needed to improve the statistical power of detecting biology driven differences."
+  },
+  {
+    "objectID": "norm_clust.html#finding-the-right-volume---methods",
+    "href": "norm_clust.html#finding-the-right-volume---methods",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Finding the Right Volume - Methods",
+    "text": "Finding the Right Volume - Methods\nNormalization is like adjusting the volume in each building.\n\nTotal count scaling (adjust based on overall conversation volume).\nLogarithmic transformation (amplify quiet conversations).\nLibrary size (DESeq2).\nDeconvolution.\nSpike-ins.\nOther advanced methods."
+  },
+  {
+    "objectID": "norm_clust.html#normalization-by-size-factor",
+    "href": "norm_clust.html#normalization-by-size-factor",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Normalization by Size Factor",
+    "text": "Normalization by Size Factor\n\nSimplest strategy\nDivides all counts for a given cell by a “size factor”\nHypothesis: any bias in that cell affects all genes equally\nThe resulting ‘normalized counts’ can be used in downstream analyses\nSize factor:\n\nGeometric mean for each gene\nDivide the cell counts by the aforementioned mean\nTake the median of the ratios"
+  },
+  {
+    "objectID": "norm_clust.html#normalization-by-deconvolution",
+    "href": "norm_clust.html#normalization-by-deconvolution",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Normalization by Deconvolution",
+    "text": "Normalization by Deconvolution\n\nCells are first clustered into several groups\nNormalization happens independently for each group\nSize factors are used to scale counts and make different groups comparable\nThe hypothesis of most genes not being DE is true for each group"
+  },
+  {
+    "objectID": "norm_clust.html#normalization-by-spike-in",
+    "href": "norm_clust.html#normalization-by-spike-in",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Normalization by Spike-in",
+    "text": "Normalization by Spike-in\n\nAdd the same amount of spike-in RNA to each cell\nEqualize spike-in coverage across cells using size factors that are specific for spike-ins\nDoesn’t make other assumptions"
+  },
+  {
+    "objectID": "norm_clust.html#how-to-normalize-data-using-seurat",
+    "href": "norm_clust.html#how-to-normalize-data-using-seurat",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "How to Normalize Data Using Seurat?",
+    "text": "How to Normalize Data Using Seurat?\nNormalizeData(\n  object,\n  normalization.method = \"LogNormalize\",\n  scale.factor = 10000\n)\n\nFeature counts for each cell are divided by the total counts for that cell\nLater, they are multiplied by the scale.factor\nFinally, this result is natural-log transformed"
+  },
+  {
+    "objectID": "norm_clust.html#uncovering-neighborhoods---aim",
+    "href": "norm_clust.html#uncovering-neighborhoods---aim",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Uncovering Neighborhoods - Aim",
+    "text": "Uncovering Neighborhoods - Aim\nClustering is like identifying distinct neighborhoods within the city.\n\nGroup cells with similar gene expression profiles (similar conversations)."
+  },
+  {
+    "objectID": "norm_clust.html#clustering",
+    "href": "norm_clust.html#clustering",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Clustering",
+    "text": "Clustering\n\nUnsupervised (statistical learning) strategy to define groups of cells with similar expression patterns.\nSimplifies interpretation.\nClusters should be treated as approximations of abstract biological concepts (cell types, states, etc).\nThese clusters are for exploration only and we can create as many versions as we want (more clusters, less clusters).\nThe correctness of cluster assignments is meaningless."
+  },
+  {
+    "objectID": "norm_clust.html#uncovering-neighborhoods---methods",
+    "href": "norm_clust.html#uncovering-neighborhoods---methods",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Uncovering Neighborhoods - Methods",
+    "text": "Uncovering Neighborhoods - Methods\nClustering is like identifying distinct neighborhoods within the city.\n\nK-means (predefine the number of neighborhoods).\nHierarchical clustering (build a family tree of cell relationships).\nGraph-based clustering (connect cells based on shared conversations)."
+  },
+  {
+    "objectID": "norm_clust.html#hierarchical-clustering",
+    "href": "norm_clust.html#hierarchical-clustering",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Hierarchical Clustering",
+    "text": "Hierarchical Clustering\n\nProduces a dendrogram, useful for understanding the relationships between subpopulations.\nIt’s slow.\nUses cell to cell distances and requires A LOT of memory."
+  },
+  {
+    "objectID": "norm_clust.html#graph-based-clustering",
+    "href": "norm_clust.html#graph-based-clustering",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Graph-based Clustering",
+    "text": "Graph-based Clustering\n\nUsed often in Seurat.\nUses information from neighbors (in higher dimensions) to create communities.\nIt’s fast (uses knn).\nIt’s robust.\nDoesn’t make assumptions about the shapes of the clusters.\nInformation about relationships beyond neighbors is lost."
+  },
+  {
+    "objectID": "norm_clust.html#perform-clustering-with-seurat---1",
+    "href": "norm_clust.html#perform-clustering-with-seurat---1",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Perform Clustering with Seurat - 1",
+    "text": "Perform Clustering with Seurat - 1\n\nDetermine distance between cells\n\nFindNeighbors(\n   object,\n   dims=1:20\n)\nComputes the k.param nearest neighbors for a given dataset. Can also optionally (via compute.SNN), construct a shared nearest neighbor graph by calculating the neighborhood overlap (Jaccard index) between every cell and its k.param nearest neighbors."
+  },
+  {
+    "objectID": "norm_clust.html#perform-clustering-with-seurat---2",
+    "href": "norm_clust.html#perform-clustering-with-seurat---2",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Perform Clustering with Seurat - 2",
+    "text": "Perform Clustering with Seurat - 2\n\nPerform graph-clustering\n\nFindClusters(\n  object\n)\nIdentify clusters of cells by a shared nearest neighbor (SNN) modularity optimization based clustering algorithm."
+  },
+  {
+    "objectID": "norm_clust.html#recap",
+    "href": "norm_clust.html#recap",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Recap",
+    "text": "Recap\n\n\n\n\n\n\n\n\nConcept\nAnalogy\nGoal\n\n\n\n\nscRNA-seq\nCity\nUnderstand conversations (gene expression) in each building (cell).\n\n\nNoise\nBackground chatter\nMakes it hard to hear individual conversations."
+  },
+  {
+    "objectID": "norm_clust.html#recap-1",
+    "href": "norm_clust.html#recap-1",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Recap",
+    "text": "Recap\n\n\n\n\n\n\n\n\nConcept\nAnalogy\nGoal\n\n\n\n\nNormalization\nVolume control\nAdjust volume to make conversations comparable.\n\n\nClustering\nNeighborhoods\nGroup buildings with similar conversations together.\n\n\n\n\n\n\n\nNormalization and Clustering of scRNA-Seq Data"
+  }
+]
