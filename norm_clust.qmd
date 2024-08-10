@@ -5,7 +5,6 @@ format:
   revealjs:
     logo: unicamp.png
     footer: Normalization and Clustering of scRNA-Seq Data
-    multiplex: true
 editor: visual
 css: style.css
 ---

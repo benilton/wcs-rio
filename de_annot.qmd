@@ -5,7 +5,6 @@ format:
   revealjs:
     logo: unicamp.png
     footer: Differential Expression and Annotation
-    multiplex: true
 editor: visual
 css: style.css
 ---
