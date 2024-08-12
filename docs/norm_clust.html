@@ -441,6 +441,159 @@ Benilton S Carvalho
 </ul>
 </section></section>
 <section>
+<section id="dimension-reduction-a-primer" class="title-slide slide level1 center">
+<h1>Dimension Reduction: A Primer</h1>
+
+</section>
+<section id="introduction-to-dimension-reduction" class="slide level2">
+<h2>Introduction to Dimension Reduction</h2>
+<ul>
+<li><strong>Objective</strong>: Reduce the number of dimensions while preserving essential data characteristics.</li>
+<li><strong>Why</strong>:
+<ul>
+<li>Simplifies visualization and interpretation.</li>
+<li>Reduces computational burden.</li>
+<li>Helps to identify and remove noise.</li>
+</ul></li>
+</ul>
+</section>
+<section id="principal-component-analysis-pca" class="slide level2">
+<h2>Principal Component Analysis (PCA)</h2>
+<ul>
+<li><strong>Objective</strong>: Transform data into a set of orthogonal (uncorrelated) components.</li>
+<li><strong>Key Points</strong>:
+<ul>
+<li><strong>Variance</strong>: Maximizes the variance captured in each component.</li>
+<li><strong>Components</strong>: Principal components (PCs) are ranked by the amount of variance they explain.</li>
+<li><strong>Linear</strong>: PCA is a linear transformation.</li>
+</ul></li>
+</ul>
+</section>
+<section id="pca-steps" class="slide level2">
+<h2>PCA Steps</h2>
+<ol type="1">
+<li><strong>Standardize the Data</strong>: Ensure each gene has a mean of 0 and a standard deviation of 1.</li>
+<li><strong>Covariance Matrix</strong>: Compute the covariance matrix to understand the data variance.</li>
+<li><strong>Eigen Decomposition</strong>: Compute eigenvalues and eigenvectors from the covariance matrix.</li>
+<li><strong>Principal Components</strong>: Select top eigenvectors as principal components.</li>
+<li><strong>Transformation</strong>: Project data onto the principal components.</li>
+</ol>
+</section>
+<section id="pca-in-scrna-seq" class="slide level2">
+<h2>PCA in scRNA-seq</h2>
+<ul>
+<li><strong>Preprocessing</strong>: Normalize and log-transform the gene expression matrix.</li>
+<li><strong>Application</strong>: Identify the most variable genes before applying PCA.</li>
+<li><strong>Interpretation</strong>: First few PCs often capture major biological variability (e.g., cell types, states).</li>
+</ul>
+</section>
+<section id="run-pca-with-seurat" class="slide level2">
+<h2>Run PCA with Seurat</h2>
+<p>The function <em>RunPCA</em> will perform the PCA dimension reduction method to the <em>object</em>. But the user must be careful about the number of features that will be used. Most of the time, we can use only the most variable features (why?) and reduce the computational burden significantly. It is also good practice to overwrite the <em>object</em> with the PCA result to centralize the information.</p>
+<pre><code>object = RunPCA(
+  object,
+  features
+)</code></pre>
+</section>
+<section id="visualizing-pcs" class="slide level2">
+<h2>Visualizing PCs</h2>
+<p>We can use the <em>DimPlot</em> function to visualize the principal components (one dimension vs.&nbsp;another). On this plot, we search for the existence of clusters. It is important to remember that the PCs are sorted (in decreasing order) by variance (i.e., the PC1 is the one with maximum variance, etc).</p>
+<pre><code>DimPlot(
+  object,
+  reduction = "pca"
+)</code></pre>
+</section>
+<section id="visualizing-pc-heatmap" class="slide level2">
+<h2>Visualizing PC Heatmap</h2>
+<p>Another option is to visualize each principal component as a function of gene-specific contributions. This visualization will show us how each gene contributes to variance explanation. One heatmap that shows mainly one single color indicates that all genes contribute in the same direction (this means that it is only an overall average that is being shown). We expect to identify blocks of cell and genes on diverging colors.</p>
+<pre><code>DimHeatmap(
+  object,
+  dims
+)</code></pre>
+</section>
+<section id="uniform-manifold-approximation-and-projection-umap" class="slide level2">
+<h2>Uniform Manifold Approximation and Projection (UMAP)</h2>
+<ul>
+<li><strong>Objective</strong>: Non-linear dimension reduction technique.</li>
+<li><strong>Key Points</strong>:
+<ul>
+<li><strong>Local vs.&nbsp;Global Structure</strong>: Preserves local neighborhood and global structure.</li>
+<li><strong>Manifold Learning</strong>: Assumes data lies on a manifold of lower dimension.</li>
+<li><strong>Flexible</strong>: Effective for various data types, including scRNA-seq.</li>
+</ul></li>
+</ul>
+</section>
+<section id="umap-steps" class="slide level2">
+<h2>UMAP Steps</h2>
+<ol type="1">
+<li><strong>Graph Construction</strong>: Construct a high-dimensional graph representation of the data.</li>
+<li><strong>Optimization</strong>: Optimize the graph for a low-dimensional representation.</li>
+<li><strong>Embedding</strong>: Use the optimized graph to embed the data in 2D or 3D.</li>
+</ol>
+</section>
+<section id="umap-in-scrna-seq" class="slide level2">
+<h2>UMAP in scRNA-seq</h2>
+<ul>
+<li><strong>Preprocessing</strong>: Similar to PCA (normalize, log-transform, select variable genes).</li>
+<li><strong>Visualization</strong>: Produces visually interpretable clusters representing cell populations.</li>
+<li><strong>Parameters</strong>: <em>n_neighbors</em> (local structure) and <em>min_dist</em> (clustering tightness).</li>
+</ul>
+</section>
+<section id="comparison-pca-vs-umap" class="slide level2">
+<h2>Comparison PCA vs UMAP</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 37%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Aspect</th>
+<th>PCA</th>
+<th>UMAP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Type</strong></td>
+<td>Linear</td>
+<td>Non-linear</td>
+</tr>
+<tr class="even">
+<td><strong>Variance</strong></td>
+<td>Maximizes explained variance</td>
+<td>Preserves local/global structure</td>
+</tr>
+<tr class="odd">
+<td><strong>Interpretation</strong></td>
+<td>Easier to interpret PCs</td>
+<td>Better for complex structures</td>
+</tr>
+<tr class="even">
+<td><strong>Speed</strong></td>
+<td>Faster</td>
+<td>Slower</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="practical-tips" class="slide level2">
+<h2>Practical Tips</h2>
+<ul>
+<li><strong>Choosing Method</strong>:
+<ul>
+<li>Use <strong>PCA</strong> for initial analysis and simple structures.</li>
+<li>Use <strong>UMAP</strong> for complex, non-linear structures.</li>
+</ul></li>
+<li><strong>Interpretation</strong>:
+<ul>
+<li>Both methods require careful interpretation.</li>
+<li>Visualizations should be supplemented with biological knowledge.</li>
+</ul></li>
+</ul>
+</section></section>
+<section>
 <section id="clustering-uncovering-neighborhoods" class="title-slide slide level1 center">
 <h1>Clustering: Uncovering Neighborhoods</h1>
 

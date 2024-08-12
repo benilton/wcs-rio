@@ -92,6 +92,109 @@ NormalizeData(
 * Later, they are multiplied by the scale.factor
 * Finally, this result is natural-log transformed
 
+# Dimension Reduction: A Primer
+
+## Introduction to Dimension Reduction
+
+- **Objective**: Reduce the number of dimensions while preserving essential data characteristics.
+- **Why**:
+  - Simplifies visualization and interpretation.
+  - Reduces computational burden.
+  - Helps to identify and remove noise.
+
+## Principal Component Analysis (PCA)
+
+- **Objective**: Transform data into a set of orthogonal (uncorrelated) components.
+- **Key Points**:
+  - **Variance**: Maximizes the variance captured in each component.
+  - **Components**: Principal components (PCs) are ranked by the amount of variance they explain.
+  - **Linear**: PCA is a linear transformation.
+
+## PCA Steps
+
+1. **Standardize the Data**: Ensure each gene has a mean of 0 and a standard deviation of 1.
+2. **Covariance Matrix**: Compute the covariance matrix to understand the data variance.
+3. **Eigen Decomposition**: Compute eigenvalues and eigenvectors from the covariance matrix.
+4. **Principal Components**: Select top eigenvectors as principal components.
+5. **Transformation**: Project data onto the principal components.
+
+## PCA in scRNA-seq
+
+- **Preprocessing**: Normalize and log-transform the gene expression matrix.
+- **Application**: Identify the most variable genes before applying PCA.
+- **Interpretation**: First few PCs often capture major biological variability (e.g., cell types, states).
+
+## Run PCA with Seurat
+
+The function *RunPCA* will perform the PCA dimension reduction method to the *object*. But the user must be careful about the number of features that will be used. Most of the time, we can use only the most variable features (why?) and reduce the computational burden significantly. It is also good practice to overwrite the *object* with the PCA result to centralize the information.
+
+```
+object = RunPCA(
+  object,
+  features
+)
+```
+
+## Visualizing PCs
+
+We can use the *DimPlot* function to visualize the principal components (one dimension vs. another). On this plot, we search for the existence of clusters. It is important to remember that the PCs are sorted (in decreasing order) by variance (i.e., the PC1 is the one with maximum variance, etc).
+
+```
+DimPlot(
+  object,
+  reduction = "pca"
+)
+```
+
+## Visualizing PC Heatmap
+
+Another option is to visualize each principal component as a function of gene-specific contributions. This visualization will show us how each gene contributes to variance explanation. One heatmap that shows mainly one single color indicates that all genes contribute in the same direction (this means that it is only an overall average that is being shown). We expect to identify blocks of cell and genes on diverging colors.
+
+```
+DimHeatmap(
+  object,
+  dims
+)
+```
+
+## Uniform Manifold Approximation and Projection (UMAP)
+
+- **Objective**: Non-linear dimension reduction technique.
+- **Key Points**:
+  - **Local vs. Global Structure**: Preserves local neighborhood and global structure.
+  - **Manifold Learning**: Assumes data lies on a manifold of lower dimension.
+  - **Flexible**: Effective for various data types, including scRNA-seq.
+
+## UMAP Steps
+
+1. **Graph Construction**: Construct a high-dimensional graph representation of the data.
+2. **Optimization**: Optimize the graph for a low-dimensional representation.
+3. **Embedding**: Use the optimized graph to embed the data in 2D or 3D.
+
+## UMAP in scRNA-seq
+
+- **Preprocessing**: Similar to PCA (normalize, log-transform, select variable genes).
+- **Visualization**: Produces visually interpretable clusters representing cell populations.
+- **Parameters**: *n_neighbors* (local structure) and *min_dist* (clustering tightness).
+
+## Comparison PCA vs UMAP
+
+| Aspect            | PCA                         | UMAP                        |
+|-------------------|-----------------------------|-----------------------------|
+| **Type**          | Linear                      | Non-linear                  |
+| **Variance**      | Maximizes explained variance| Preserves local/global structure|
+| **Interpretation**| Easier to interpret PCs     | Better for complex structures|
+| **Speed**         | Faster                      | Slower                      |
+
+## Practical Tips
+
+- **Choosing Method**:
+  - Use **PCA** for initial analysis and simple structures.
+  - Use **UMAP** for complex, non-linear structures.
+- **Interpretation**:
+  - Both methods require careful interpretation.
+  - Visualizations should be supplemented with biological knowledge.
+
 # Clustering: Uncovering Neighborhoods
 
 ## Uncovering Neighborhoods - Aim

@@ -203,6 +203,90 @@
     "text": "How to Normalize Data Using Seurat?\nNormalizeData(\n  object,\n  normalization.method = \"LogNormalize\",\n  scale.factor = 10000\n)\n\nFeature counts for each cell are divided by the total counts for that cell\nLater, they are multiplied by the scale.factor\nFinally, this result is natural-log transformed"
   },
   {
+    "objectID": "norm_clust.html#introduction-to-dimension-reduction",
+    "href": "norm_clust.html#introduction-to-dimension-reduction",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Introduction to Dimension Reduction",
+    "text": "Introduction to Dimension Reduction\n\nObjective: Reduce the number of dimensions while preserving essential data characteristics.\nWhy:\n\nSimplifies visualization and interpretation.\nReduces computational burden.\nHelps to identify and remove noise."
+  },
+  {
+    "objectID": "norm_clust.html#principal-component-analysis-pca",
+    "href": "norm_clust.html#principal-component-analysis-pca",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Principal Component Analysis (PCA)",
+    "text": "Principal Component Analysis (PCA)\n\nObjective: Transform data into a set of orthogonal (uncorrelated) components.\nKey Points:\n\nVariance: Maximizes the variance captured in each component.\nComponents: Principal components (PCs) are ranked by the amount of variance they explain.\nLinear: PCA is a linear transformation."
+  },
+  {
+    "objectID": "norm_clust.html#pca-steps",
+    "href": "norm_clust.html#pca-steps",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "PCA Steps",
+    "text": "PCA Steps\n\nStandardize the Data: Ensure each gene has a mean of 0 and a standard deviation of 1.\nCovariance Matrix: Compute the covariance matrix to understand the data variance.\nEigen Decomposition: Compute eigenvalues and eigenvectors from the covariance matrix.\nPrincipal Components: Select top eigenvectors as principal components.\nTransformation: Project data onto the principal components."
+  },
+  {
+    "objectID": "norm_clust.html#pca-in-scrna-seq",
+    "href": "norm_clust.html#pca-in-scrna-seq",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "PCA in scRNA-seq",
+    "text": "PCA in scRNA-seq\n\nPreprocessing: Normalize and log-transform the gene expression matrix.\nApplication: Identify the most variable genes before applying PCA.\nInterpretation: First few PCs often capture major biological variability (e.g., cell types, states)."
+  },
+  {
+    "objectID": "norm_clust.html#run-pca-with-seurat",
+    "href": "norm_clust.html#run-pca-with-seurat",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Run PCA with Seurat",
+    "text": "Run PCA with Seurat\nThe function RunPCA will perform the PCA dimension reduction method to the object. But the user must be careful about the number of features that will be used. Most of the time, we can use only the most variable features (why?) and reduce the computational burden significantly. It is also good practice to overwrite the object with the PCA result to centralize the information.\nobject = RunPCA(\n  object,\n  features\n)"
+  },
+  {
+    "objectID": "norm_clust.html#visualizing-pcs",
+    "href": "norm_clust.html#visualizing-pcs",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Visualizing PCs",
+    "text": "Visualizing PCs\nWe can use the DimPlot function to visualize the principal components (one dimension vs. another). On this plot, we search for the existence of clusters. It is important to remember that the PCs are sorted (in decreasing order) by variance (i.e., the PC1 is the one with maximum variance, etc).\nDimPlot(\n  object,\n  reduction = \"pca\"\n)"
+  },
+  {
+    "objectID": "norm_clust.html#visualizing-pc-heatmap",
+    "href": "norm_clust.html#visualizing-pc-heatmap",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Visualizing PC Heatmap",
+    "text": "Visualizing PC Heatmap\nAnother option is to visualize each principal component as a function of gene-specific contributions. This visualization will show us how each gene contributes to variance explanation. One heatmap that shows mainly one single color indicates that all genes contribute in the same direction (this means that it is only an overall average that is being shown). We expect to identify blocks of cell and genes on diverging colors.\nDimHeatmap(\n  object,\n  dims\n)"
+  },
+  {
+    "objectID": "norm_clust.html#uniform-manifold-approximation-and-projection-umap",
+    "href": "norm_clust.html#uniform-manifold-approximation-and-projection-umap",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Uniform Manifold Approximation and Projection (UMAP)",
+    "text": "Uniform Manifold Approximation and Projection (UMAP)\n\nObjective: Non-linear dimension reduction technique.\nKey Points:\n\nLocal vs. Global Structure: Preserves local neighborhood and global structure.\nManifold Learning: Assumes data lies on a manifold of lower dimension.\nFlexible: Effective for various data types, including scRNA-seq."
+  },
+  {
+    "objectID": "norm_clust.html#umap-steps",
+    "href": "norm_clust.html#umap-steps",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "UMAP Steps",
+    "text": "UMAP Steps\n\nGraph Construction: Construct a high-dimensional graph representation of the data.\nOptimization: Optimize the graph for a low-dimensional representation.\nEmbedding: Use the optimized graph to embed the data in 2D or 3D."
+  },
+  {
+    "objectID": "norm_clust.html#umap-in-scrna-seq",
+    "href": "norm_clust.html#umap-in-scrna-seq",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "UMAP in scRNA-seq",
+    "text": "UMAP in scRNA-seq\n\nPreprocessing: Similar to PCA (normalize, log-transform, select variable genes).\nVisualization: Produces visually interpretable clusters representing cell populations.\nParameters: n_neighbors (local structure) and min_dist (clustering tightness)."
+  },
+  {
+    "objectID": "norm_clust.html#comparison-pca-vs-umap",
+    "href": "norm_clust.html#comparison-pca-vs-umap",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Comparison PCA vs UMAP",
+    "text": "Comparison PCA vs UMAP\n\n\n\n\n\n\n\n\nAspect\nPCA\nUMAP\n\n\n\n\nType\nLinear\nNon-linear\n\n\nVariance\nMaximizes explained variance\nPreserves local/global structure\n\n\nInterpretation\nEasier to interpret PCs\nBetter for complex structures\n\n\nSpeed\nFaster\nSlower"
+  },
+  {
+    "objectID": "norm_clust.html#practical-tips",
+    "href": "norm_clust.html#practical-tips",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Practical Tips",
+    "text": "Practical Tips\n\nChoosing Method:\n\nUse PCA for initial analysis and simple structures.\nUse UMAP for complex, non-linear structures.\n\nInterpretation:\n\nBoth methods require careful interpretation.\nVisualizations should be supplemented with biological knowledge."
+  },
+  {
     "objectID": "norm_clust.html#uncovering-neighborhoods---aim",
     "href": "norm_clust.html#uncovering-neighborhoods---aim",
     "title": "Normalization and Clustering of scRNA-Seq Data",
