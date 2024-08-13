@@ -54,13 +54,8 @@ css: style.css
     -   Quantitatively significant between clusters
     -   Qualitatively different (predictive) of cluster membership
 -   Different types of markers
-    -   Global: Distinguish one cluster from all of the rest of the data
-    -   Local: Distinguish one cluster from another defined set of clusters
-
-## Statistical Analysis of Differences Between Clusters
-
--   Often filter genes based on coverage in the set or the size of groups
--   Several choices of methods to identify genes
+    -   Global: Distinguish one cluster from all of the others
+    -   Local: Distinguish one cluster from a set of clusters
 
 ## Comparing Gene Expression Across Groups
 
@@ -97,13 +92,15 @@ FindMarkers(data, ident.1 = "g1", ident.2 = "g2",
 
 ## t-test
 
+* Works better when data follow a bell-shaped distribution
+* But has very good performance even when the data is not normally distributed
 * Compares the average gene expression in the two groups
 * Assesses if the difference is likely due to chance or a real effect of the groups
 
 ## t-test: step-by-step
 
 * **Calculate the Means**: Find the average gene expression for each group.
-* **Measure the Spread**: See how much the individual measurements vary around the averages (standard deviation).
+* **Measure the Spread**: How much the individual measurements vary around the averages (SD).
 * **Calculate the t-statistic**: A number that combines the difference in means and the spread. Larger t-values suggest a bigger difference between groups.
 * **Get the p-value**: The probability of seeing a difference as large as (or larger than) the one you observed if there was actually no real effect of the groups.
 
@@ -121,6 +118,7 @@ The negative binomial distribution is a statistical model that's well-suited for
 
 * Discrete nature: It only deals with whole numbers.
 * Overdispersion: It allows for extra variation in the data.
+* Overdispersion in scRNA-seq data means technical variability (technical features, like library preparation, sequencing) combined with biological variability (variability across cells).
 
 ## The Negative Binomial Test: Comparing Groups
 
@@ -128,7 +126,34 @@ In scRNA-seq, we often want to compare gene expression between groups (e.g., tre
 
 * Modeling the Counts: It estimates the parameters of the negative binomial distribution for each group.
 * Testing for Differences: It assesses whether the differences in counts between groups are statistically significant.
+* p-values are often used to summarize evidences of differences between groups.
 
+## Simulation
+
+* 33k genes
+* 200 cells per group
+* 2 groups
+* 1k differentially expressed genes
+* baseline counts: 10
+* effect size: 5
+
+## DE Genes
+
+| Correction 	| Wilcoxon 	| t-test 	| Negative Binomial 	| MAST 	|
+|------------	|----------	|--------	|-------------------	|------	|
+| p-value    	| 0.91     	| 0.97   	| 0.97              	| 0.09 	|
+| FDR        	| 0.49     	| 0.72   	| 0.76              	| 0.00	|
+
+Remember: we simulated data, so we know that there are 1.000 genes that are differentially expressed. The proportions above represent how much of these 1.000 genes each method was able to detect.
+
+## not DE Genes
+
+| Correction 	| Wilcoxon 	| t-test 	| Negative Binomial 	| MAST 	|
+|------------	|----------	|--------	|-------------------	|------	|
+| p-value    	| 0.05     	| 0.05   	| 0.05              	| 0.02 	|
+| FDR        	| 0.00     	| 0.00   	| 0.00              	| 0.00 	|
+
+Remember: we simulated data, so we know that there are 32.000 genes that are **not differentially** expressed. The proportions above represent how much of these 32.000 genes each method was able to detect as being differentially expressed (therefore, the method made mistakes).
 
 ## What about new methods?
 

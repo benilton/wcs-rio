@@ -25,14 +25,7 @@
     "href": "de_annot.html#statistical-analysis-of-differences-between-clusters",
     "title": "Differential Expression and Annotation",
     "section": "Statistical Analysis of Differences Between Clusters",
-    "text": "Statistical Analysis of Differences Between Clusters\n\nDifferent types of hits\n\nQuantitatively significant between clusters\nQualitatively different (predictive) of cluster membership\n\nDifferent types of markers\n\nGlobal: Distinguish one cluster from all of the rest of the data\nLocal: Distinguish one cluster from another defined set of clusters"
-  },
-  {
-    "objectID": "de_annot.html#statistical-analysis-of-differences-between-clusters-1",
-    "href": "de_annot.html#statistical-analysis-of-differences-between-clusters-1",
-    "title": "Differential Expression and Annotation",
-    "section": "Statistical Analysis of Differences Between Clusters",
-    "text": "Statistical Analysis of Differences Between Clusters\n\nOften filter genes based on coverage in the set or the size of groups\nSeveral choices of methods to identify genes"
+    "text": "Statistical Analysis of Differences Between Clusters\n\nDifferent types of hits\n\nQuantitatively significant between clusters\nQualitatively different (predictive) of cluster membership\n\nDifferent types of markers\n\nGlobal: Distinguish one cluster from all of the others\nLocal: Distinguish one cluster from a set of clusters"
   },
   {
     "objectID": "de_annot.html#comparing-gene-expression-across-groups",
@@ -67,14 +60,14 @@
     "href": "de_annot.html#t-test",
     "title": "Differential Expression and Annotation",
     "section": "t-test",
-    "text": "t-test\n\nCompares the average gene expression in the two groups\nAssesses if the difference is likely due to chance or a real effect of the groups"
+    "text": "t-test\n\nWorks better when data follow a bell-shaped distribution\nBut has very good performance even when the data is not normally distributed\nCompares the average gene expression in the two groups\nAssesses if the difference is likely due to chance or a real effect of the groups"
   },
   {
     "objectID": "de_annot.html#t-test-step-by-step",
     "href": "de_annot.html#t-test-step-by-step",
     "title": "Differential Expression and Annotation",
     "section": "t-test: step-by-step",
-    "text": "t-test: step-by-step\n\nCalculate the Means: Find the average gene expression for each group.\nMeasure the Spread: See how much the individual measurements vary around the averages (standard deviation).\nCalculate the t-statistic: A number that combines the difference in means and the spread. Larger t-values suggest a bigger difference between groups.\nGet the p-value: The probability of seeing a difference as large as (or larger than) the one you observed if there was actually no real effect of the groups."
+    "text": "t-test: step-by-step\n\nCalculate the Means: Find the average gene expression for each group.\nMeasure the Spread: How much the individual measurements vary around the averages (SD).\nCalculate the t-statistic: A number that combines the difference in means and the spread. Larger t-values suggest a bigger difference between groups.\nGet the p-value: The probability of seeing a difference as large as (or larger than) the one you observed if there was actually no real effect of the groups."
   },
   {
     "objectID": "de_annot.html#negative-binomial-test",
@@ -88,14 +81,35 @@
     "href": "de_annot.html#negative-binomial-distribuition",
     "title": "Differential Expression and Annotation",
     "section": "Negative Binomial Distribuition",
-    "text": "Negative Binomial Distribuition\nThe negative binomial distribution is a statistical model that’s well-suited for count data. It can handle:\n\nDiscrete nature: It only deals with whole numbers.\nOverdispersion: It allows for extra variation in the data."
+    "text": "Negative Binomial Distribuition\nThe negative binomial distribution is a statistical model that’s well-suited for count data. It can handle:\n\nDiscrete nature: It only deals with whole numbers.\nOverdispersion: It allows for extra variation in the data.\nOverdispersion in scRNA-seq data means technical variability (technical features, like library preparation, sequencing) combined with biological variability (variability across cells)."
   },
   {
     "objectID": "de_annot.html#the-negative-binomial-test-comparing-groups",
     "href": "de_annot.html#the-negative-binomial-test-comparing-groups",
     "title": "Differential Expression and Annotation",
     "section": "The Negative Binomial Test: Comparing Groups",
-    "text": "The Negative Binomial Test: Comparing Groups\nIn scRNA-seq, we often want to compare gene expression between groups (e.g., treated vs. control cells). The negative binomial test helps us do this by:\n\nModeling the Counts: It estimates the parameters of the negative binomial distribution for each group.\nTesting for Differences: It assesses whether the differences in counts between groups are statistically significant."
+    "text": "The Negative Binomial Test: Comparing Groups\nIn scRNA-seq, we often want to compare gene expression between groups (e.g., treated vs. control cells). The negative binomial test helps us do this by:\n\nModeling the Counts: It estimates the parameters of the negative binomial distribution for each group.\nTesting for Differences: It assesses whether the differences in counts between groups are statistically significant.\np-values are often used to summarize evidences of differences between groups."
+  },
+  {
+    "objectID": "de_annot.html#simulation",
+    "href": "de_annot.html#simulation",
+    "title": "Differential Expression and Annotation",
+    "section": "Simulation",
+    "text": "Simulation\n\n33k genes\n200 cells per group\n2 groups\n1k differentially expressed genes\nbaseline counts: 10\neffect size: 5"
+  },
+  {
+    "objectID": "de_annot.html#de-genes",
+    "href": "de_annot.html#de-genes",
+    "title": "Differential Expression and Annotation",
+    "section": "DE Genes",
+    "text": "DE Genes\n\n\n\n\n\n\n\n\n\n\nCorrection\nWilcoxon\nt-test\nNegative Binomial\nMAST\n\n\n\n\np-value\n0.91\n0.97\n0.97\n0.09\n\n\nFDR\n0.49\n0.72\n0.76\n0.00\n\n\n\nRemember: we simulated data, so we know that there are 1.000 genes that are differentially expressed. The proportions above represent how much of these 1.000 genes each method was able to detect."
+  },
+  {
+    "objectID": "de_annot.html#not-de-genes",
+    "href": "de_annot.html#not-de-genes",
+    "title": "Differential Expression and Annotation",
+    "section": "not DE Genes",
+    "text": "not DE Genes\n\n\n\n\n\n\n\n\n\n\nCorrection\nWilcoxon\nt-test\nNegative Binomial\nMAST\n\n\n\n\np-value\n0.05\n0.05\n0.05\n0.02\n\n\nFDR\n0.00\n0.00\n0.00\n0.00\n\n\n\nRemember: we simulated data, so we know that there are 32.000 genes that are not differentially expressed. The proportions above represent how much of these 32.000 genes each method was able to detect as being differentially expressed (therefore, the method made mistakes)."
   },
   {
     "objectID": "de_annot.html#what-about-new-methods",

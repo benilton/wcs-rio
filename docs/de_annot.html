@@ -389,16 +389,9 @@ Benilton S Carvalho
 </ul></li>
 <li>Different types of markers
 <ul>
-<li>Global: Distinguish one cluster from all of the rest of the data</li>
-<li>Local: Distinguish one cluster from another defined set of clusters</li>
+<li>Global: Distinguish one cluster from all of the others</li>
+<li>Local: Distinguish one cluster from a set of clusters</li>
 </ul></li>
-</ul>
-</section>
-<section id="statistical-analysis-of-differences-between-clusters-1" class="slide level2">
-<h2>Statistical Analysis of Differences Between Clusters</h2>
-<ul>
-<li>Often filter genes based on coverage in the set or the size of groups</li>
-<li>Several choices of methods to identify genes</li>
 </ul>
 </section>
 <section id="comparing-gene-expression-across-groups" class="slide level2">
@@ -442,6 +435,8 @@ Benilton S Carvalho
 <section id="t-test" class="slide level2">
 <h2>t-test</h2>
 <ul>
+<li>Works better when data follow a bell-shaped distribution</li>
+<li>But has very good performance even when the data is not normally distributed</li>
 <li>Compares the average gene expression in the two groups</li>
 <li>Assesses if the difference is likely due to chance or a real effect of the groups</li>
 </ul>
@@ -450,7 +445,7 @@ Benilton S Carvalho
 <h2>t-test: step-by-step</h2>
 <ul>
 <li><strong>Calculate the Means</strong>: Find the average gene expression for each group.</li>
-<li><strong>Measure the Spread</strong>: See how much the individual measurements vary around the averages (standard deviation).</li>
+<li><strong>Measure the Spread</strong>: How much the individual measurements vary around the averages (SD).</li>
 <li><strong>Calculate the t-statistic</strong>: A number that combines the difference in means and the spread. Larger t-values suggest a bigger difference between groups.</li>
 <li><strong>Get the p-value</strong>: The probability of seeing a difference as large as (or larger than) the one you observed if there was actually no real effect of the groups.</li>
 </ul>
@@ -473,6 +468,7 @@ Benilton S Carvalho
 <ul>
 <li>Discrete nature: It only deals with whole numbers.</li>
 <li>Overdispersion: It allows for extra variation in the data.</li>
+<li>Overdispersion in scRNA-seq data means technical variability (technical features, like library preparation, sequencing) combined with biological variability (variability across cells).</li>
 </ul>
 </section>
 <section id="the-negative-binomial-test-comparing-groups" class="slide level2">
@@ -481,7 +477,95 @@ Benilton S Carvalho
 <ul>
 <li>Modeling the Counts: It estimates the parameters of the negative binomial distribution for each group.</li>
 <li>Testing for Differences: It assesses whether the differences in counts between groups are statistically significant.</li>
+<li>p-values are often used to summarize evidences of differences between groups.</li>
 </ul>
+</section>
+<section id="simulation" class="slide level2">
+<h2>Simulation</h2>
+<ul>
+<li>33k genes</li>
+<li>200 cells per group</li>
+<li>2 groups</li>
+<li>1k differentially expressed genes</li>
+<li>baseline counts: 10</li>
+<li>effect size: 5</li>
+</ul>
+</section>
+<section id="de-genes" class="slide level2">
+<h2>DE Genes</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 18%">
+<col style="width: 14%">
+<col style="width: 34%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Correction</th>
+<th>Wilcoxon</th>
+<th>t-test</th>
+<th>Negative Binomial</th>
+<th>MAST</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>p-value</td>
+<td>0.91</td>
+<td>0.97</td>
+<td>0.97</td>
+<td>0.09</td>
+</tr>
+<tr class="even">
+<td>FDR</td>
+<td>0.49</td>
+<td>0.72</td>
+<td>0.76</td>
+<td>0.00</td>
+</tr>
+</tbody>
+</table>
+<p>Remember: we simulated data, so we know that there are 1.000 genes that are differentially expressed. The proportions above represent how much of these 1.000 genes each method was able to detect.</p>
+</section>
+<section id="not-de-genes" class="slide level2">
+<h2>not DE Genes</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 18%">
+<col style="width: 14%">
+<col style="width: 34%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Correction</th>
+<th>Wilcoxon</th>
+<th>t-test</th>
+<th>Negative Binomial</th>
+<th>MAST</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>p-value</td>
+<td>0.05</td>
+<td>0.05</td>
+<td>0.05</td>
+<td>0.02</td>
+</tr>
+<tr class="even">
+<td>FDR</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>0.00</td>
+</tr>
+</tbody>
+</table>
+<p>Remember: we simulated data, so we know that there are 32.000 genes that are <strong>not differentially</strong> expressed. The proportions above represent how much of these 32.000 genes each method was able to detect as being differentially expressed (therefore, the method made mistakes).</p>
 </section>
 <section id="what-about-new-methods" class="slide level2">
 <h2>What about new methods?</h2>
