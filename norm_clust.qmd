@@ -177,6 +177,29 @@ DimHeatmap(
 - **Visualization**: Produces visually interpretable clusters representing cell populations.
 - **Parameters**: *n_neighbors* (local structure) and *min_dist* (clustering tightness).
 
+## Running UMAP with Seurat
+
+Similarly to *RunPCA*, we use the *RunUMAP* function to obtain the UMAP projections for dimension reduction. There is a tuning parameter *dims* (number of dimensions to be used) that we need to adjust for. Low values for *dims* will show strange patterns and increasing *dims* will allow for the identification of cell clusters.
+
+```
+RunUMAP(
+  object,
+  dims
+)
+```
+
+
+## Visualizing UMAP Projections
+
+We can use the *DimPlot* function again to visualize the UMAP projections (one dimension vs. another). On this plot, we search for the existence of clusters.
+
+```
+DimPlot(
+  object,
+  reduction = "umap"  # can be omitted
+)
+```
+
 ## Comparison PCA vs UMAP
 
 | Aspect            | PCA                         | UMAP                        |

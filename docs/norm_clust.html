@@ -539,6 +539,22 @@ Benilton S Carvalho
 <li><strong>Parameters</strong>: <em>n_neighbors</em> (local structure) and <em>min_dist</em> (clustering tightness).</li>
 </ul>
 </section>
+<section id="running-umap-with-seurat" class="slide level2">
+<h2>Running UMAP with Seurat</h2>
+<p>Similarly to <em>RunPCA</em>, we use the <em>RunUMAP</em> function to obtain the UMAP projections for dimension reduction. There is a tuning parameter <em>dims</em> (number of dimensions to be used) that we need to adjust for. Low values for <em>dims</em> will show strange patterns and increasing <em>dims</em> will allow for the identification of cell clusters.</p>
+<pre><code>RunUMAP(
+  object,
+  dims
+)</code></pre>
+</section>
+<section id="visualizing-umap-projections" class="slide level2">
+<h2>Visualizing UMAP Projections</h2>
+<p>We can use the <em>DimPlot</em> function again to visualize the UMAP projections (one dimension vs.&nbsp;another). On this plot, we search for the existence of clusters.</p>
+<pre><code>DimPlot(
+  object,
+  reduction = "umap"  # can be omitted
+)</code></pre>
+</section>
 <section id="comparison-pca-vs-umap" class="slide level2">
 <h2>Comparison PCA vs UMAP</h2>
 <table class="caption-top">

@@ -273,6 +273,20 @@
     "text": "UMAP in scRNA-seq\n\nPreprocessing: Similar to PCA (normalize, log-transform, select variable genes).\nVisualization: Produces visually interpretable clusters representing cell populations.\nParameters: n_neighbors (local structure) and min_dist (clustering tightness)."
   },
   {
+    "objectID": "norm_clust.html#running-umap-with-seurat",
+    "href": "norm_clust.html#running-umap-with-seurat",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Running UMAP with Seurat",
+    "text": "Running UMAP with Seurat\nSimilarly to RunPCA, we use the RunUMAP function to obtain the UMAP projections for dimension reduction. There is a tuning parameter dims (number of dimensions to be used) that we need to adjust for. Low values for dims will show strange patterns and increasing dims will allow for the identification of cell clusters.\nRunUMAP(\n  object,\n  dims\n)"
+  },
+  {
+    "objectID": "norm_clust.html#visualizing-umap-projections",
+    "href": "norm_clust.html#visualizing-umap-projections",
+    "title": "Normalization and Clustering of scRNA-Seq Data",
+    "section": "Visualizing UMAP Projections",
+    "text": "Visualizing UMAP Projections\nWe can use the DimPlot function again to visualize the UMAP projections (one dimension vs. another). On this plot, we search for the existence of clusters.\nDimPlot(\n  object,\n  reduction = \"umap\"  # can be omitted\n)"
+  },
+  {
     "objectID": "norm_clust.html#comparison-pca-vs-umap",
     "href": "norm_clust.html#comparison-pca-vs-umap",
     "title": "Normalization and Clustering of scRNA-Seq Data",
